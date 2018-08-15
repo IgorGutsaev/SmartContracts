@@ -1,0 +1,2 @@
+# SmartContracts
+Shoppercoin smart contracts

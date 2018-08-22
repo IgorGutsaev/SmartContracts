@@ -24,7 +24,7 @@ contract ActivityNavigator is usingOraclize {
         oraclize_query("URL", "json(http://technobee.elementstore.ru/api/Activity/1).confirm");
     }
     
-    function compareStrings (string a, string b) private returns (bool){
+    function compareStrings (string a, string b) private view returns (bool){
        return keccak256(a) == keccak256(b);
     }
 }

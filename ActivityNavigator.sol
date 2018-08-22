@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.19;
 import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
 
 contract ActivityNavigator is usingOraclize {

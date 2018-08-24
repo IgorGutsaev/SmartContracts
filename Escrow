@@ -1,11 +1,7 @@
 pragma solidity ^0.4.19;
-//import "github.com/IgorGutsaev/SmartContracts/ActivityNavigator.sol";
 import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
 
 contract Escrow is usingOraclize {
-    
-   // address watch_addr = 0x6fdfddf3f98a15531dd47929c92be42693e0d852;
-    
     uint balance;
     address public retailer;
     address public customer;
@@ -13,8 +9,8 @@ contract Escrow is usingOraclize {
     uint private start;
     bool retailerOk;
     bool customerOk;
-    
- //   event test_value(string log);
+    string private taskUid;
+
     
     function getBalance() constant public returns( uint ) {
         return balance;
@@ -28,12 +24,17 @@ contract Escrow is usingOraclize {
         return customerOk;
     }
     
-    function Escrow(address retailer_address, address customer_address) public {
-        // this is the constructor function that runs ONCE upon initialization
+    function getTaskUid() constant public returns( string ) {
+        return taskUid;
+    }
+    
+    constructor(address retailer_address, address customer_address, string _taskUid) public {
         retailer = retailer_address;
         customer = customer_address;
         escrow = msg.sender;
         start = now; //now is an alias for block.timestamp, not really "now"
+        
+        taskUid = _taskUid;
     }
     
     function __callback(bytes32 myid, string result) {
@@ -54,7 +55,7 @@ contract Escrow is usingOraclize {
     
     function acceptRetailer() public payable {
         if (msg.sender == retailer) {
-          oraclize_query("URL", "json(http://technobee.elementstore.ru/api/Activity/1).confirm");
+          oraclize_query("URL", strConcat("json(http://technobee.elementstore.ru/api/Activity/", taskUid ,").confirm", ""));
         }
     }
     
@@ -106,7 +107,7 @@ contract Escrow is usingOraclize {
         }
     }
     
-        function compareStrings (string a, string b) private view returns (bool){
+    function compareStrings (string a, string b) private view returns (bool){
        return keccak256(a) == keccak256(b);
     }
 }
